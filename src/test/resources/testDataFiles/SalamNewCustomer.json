@@ -1,0 +1,16 @@
+{
+  "otp1" : "7",
+  "otp2" : "4",
+  "otp3" : "2",
+  "otp4" : "1",
+  "ID": "1002723508",
+  "name": "Test Automation",
+  "mobile": "966510036383",
+  "email": "mohamedreda8921@gmail.com",
+  "password": "Temp@123",
+  "cardNumber": "4111111111111111",
+  "expiry": "1228",
+  "cardHolder" : "Test",
+  "ccv" : "123"
+
+}
