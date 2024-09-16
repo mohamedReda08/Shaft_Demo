@@ -191,8 +191,8 @@ public class TestPrepaidSolo {
     }
     @Story("Purchase new prepaid physical SIM")
     @Step("Confirm Payment screen")
-//    (dependsOnMethods = {"testChoosePaymentMethod", "testOTP","testPassword", "testDeliveryLocation"})
-    @Test
+
+    @Test(dependsOnMethods = {"testChoosePaymentMethod", "testOTP","testPassword", "testDeliveryLocation"})
     public void testPaymentConfirm(){
         testChoosePaymentMethod();
         String expectedResult = "Payment Confirmed";
