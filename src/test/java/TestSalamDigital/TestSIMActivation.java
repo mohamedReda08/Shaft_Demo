@@ -37,7 +37,7 @@ public class TestSIMActivation {
  @AfterMethod
  public void tearDown(){driver.quit();}
 
- @Story("Activate new SIM")
+ @Story("Activate New SIM")
  @Step("click on Activate SIM button")
  @Test()
     public void testClickOnActivate(){
@@ -47,7 +47,7 @@ public class TestSIMActivation {
      Assert.assertEquals(actualPage,expectedPage);
 }
 
-@Story("Activate new SIM")
+@Story("Activate New SIM")
 @Step("click on I have ordered My SIM and delivered")
 @Test
     public void testClickOnOrderedOnline(){
@@ -101,7 +101,5 @@ public class TestSIMActivation {
         activateSIM.enterICCID(testData.getTestData("iccid"));
 
     }
-
-
 
 }
