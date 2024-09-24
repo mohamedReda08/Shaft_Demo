@@ -10,6 +10,8 @@ public class HomePage {
     // declare locators
     final private By prepaidPlansLocator = By.xpath("//div[text() = 'Prepaid Plans']");
     final private By postpaidPlansLocator = By.xpath("//div[text() = 'Postpaid Plans']");
+    final private By activateSIMLocator = By.xpath("//img[@alt ='Activate SIM card']");
+
 
     //build constructor
     public HomePage (SHAFT.GUI.WebDriver driver){
@@ -18,11 +20,9 @@ public class HomePage {
 
     //public methode
 
-    public void navigateToHomePage(){
-        driver.browser().navigateToURL(homeUrl);
-    }
+    public void navigateToHomePage(){driver.browser().navigateToURL(homeUrl);}
 
-    public void clickOnPrepaidPlans(){
-        driver.element().click(prepaidPlansLocator);
-    }
+    public void clickOnPrepaidPlans(){driver.element().click(prepaidPlansLocator);}
+
+    public void clickOnActivateYourSIM(){driver.element().click(activateSIMLocator);}
 }
