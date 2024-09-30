@@ -26,4 +26,10 @@ public class AllPrepaidPlansPage {
     public void clickOnPrepaidSoloPlansCard(){
         driver.element().click(soloPlansCardLocator);
     }
+    public void clickOnFlexPlans(){
+        driver.element().click(flexPlansCardLocator);
+    }
+    public void clickOnExtendedValidityPlans(){
+        driver.element().click(extendedPlansCardLocator);
+    }
 }

@@ -4,6 +4,8 @@ import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Screenshots;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+
 public class ActivateSIMPage {
 //    Driver declaration;
     SHAFT.GUI.WebDriver driver;
@@ -91,5 +93,15 @@ public class ActivateSIMPage {
     public void enterICCID(String iccid){
         driver.element().type(iccidLocator,iccid);
         driver.element().click(iccidContinueBtnLocator);
+    }
+
+    public void checkNafath(){
+        try {
+            Thread.sleep(Duration.ofSeconds(180));
+            driver.element().click(nafathBtnLocator);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

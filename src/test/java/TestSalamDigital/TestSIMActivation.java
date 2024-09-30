@@ -10,13 +10,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import salamdigital.ActivateSIMPage;
 import salamdigital.ActivationTypePage;
-import salamdigital.HomePage;
+import salamdigital.LandingPage;
 
 public class TestSIMActivation {
     SHAFT.GUI.WebDriver driver;
     SHAFT.TestData.JSON testData;
 
-    HomePage homePage;
+    LandingPage landingPage;
     ActivationTypePage activationType;
     ActivateSIMPage activateSIM;
 
@@ -28,10 +28,10 @@ public class TestSIMActivation {
  @BeforeMethod
     public void setup(){
     driver = new SHAFT.GUI.WebDriver();
-    homePage = new HomePage(driver);
+    landingPage = new LandingPage(driver);
     activationType = new ActivationTypePage(driver);
     activateSIM = new ActivateSIMPage(driver);
-    homePage.navigateToHomePage();
+    landingPage.navigateToHomePage();
  }
 
  @AfterMethod
@@ -41,7 +41,7 @@ public class TestSIMActivation {
  @Step("click on Activate SIM button")
  @Test()
     public void testClickOnActivate(){
-    homePage.clickOnActivateYourSIM();
+    landingPage.clickOnActivateYourSIM();
     String expectedPage = "Select activation type";
     String actualPage =activationType.pageName();
      Assert.assertEquals(actualPage,expectedPage);
@@ -51,7 +51,7 @@ public class TestSIMActivation {
 @Step("click on I have ordered My SIM and delivered")
 @Test
     public void testClickOnOrderedOnline(){
-    homePage.clickOnActivateYourSIM();
+    landingPage.clickOnActivateYourSIM();
     activationType.clickOnOrderedOnlineBtn();
     String actualResult = "Enter your ID and contact details used during your SIM order";
     String expectedResult = activateSIM.pageContext();
@@ -62,7 +62,7 @@ public class TestSIMActivation {
 @Step("enter order details")
 @Test
     public void testEnterOrderDetails(){
-    homePage.clickOnActivateYourSIM();
+    landingPage.clickOnActivateYourSIM();
     activationType.clickOnOrderedOnlineBtn();
     activateSIM.enterOrderDetails(testData.getTestData("ID"),testData.getTestData("mobile"),
             testData.getTestData("email"));
@@ -76,7 +76,7 @@ public class TestSIMActivation {
     @Step("Pick the fist Order")
     @Test
     public void testOrderSelection(){
-    homePage.clickOnActivateYourSIM();
+    landingPage.clickOnActivateYourSIM();
     activationType.clickOnOrderedOnlineBtn();
     activateSIM.enterOrderDetails(testData.getTestData("ID"),testData.getTestData("mobile"),
             testData.getTestData("email"));
@@ -87,18 +87,18 @@ public class TestSIMActivation {
 
     @Story("Activate New SIM")
     @Step("Enter OTP digits")
-    @Test
-    public void testOTP(){
-        homePage.clickOnActivateYourSIM();
+    @Test(description = "E2E purchase flow ")
+    public void testOTP() {
+        landingPage.clickOnActivateYourSIM();
         activationType.clickOnOrderedOnlineBtn();
         activateSIM.enterOrderDetails(testData.getTestData("ID"),testData.getTestData("mobile"),
                                       testData.getTestData("email"));
-        activateSIM.selectFirstOrder();
+//        activateSIM.selectFirstOrder();
         activateSIM.enterPassword(testData.getTestData("password"));
         activateSIM.enterOTP(testData.getTestData("otp1"),testData.getTestData("otp2"),
                 testData.getTestData("otp3"),testData.getTestData("otp4"));
-
         activateSIM.enterICCID(testData.getTestData("iccid"));
+        activateSIM.checkNafath();
 
     }
 

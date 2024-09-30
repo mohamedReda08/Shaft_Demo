@@ -2,16 +2,20 @@ package salamdigital;
 
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Screenshots;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class OnboardingPage {
     SHAFT.GUI.WebDriver driver;
     Alert alert;
-
+    JSONObject jsonObject;
+    FileWriter writer;
 
     By physicalSIMLocator = By.xpath("//span[text() = 'SIM']");
     By eSIMLocator = By.xpath("//span[text() = 'eSIM']");
@@ -86,8 +90,23 @@ public class OnboardingPage {
         driver.element().click(switchToSalamLocator);
     }
 
-    public void chooseMSISDN(){
-        driver.element().scrollToElement(firstMSISDNLocator).click(firstMSISDNLocator);
+
+    public void chooseMSISDN(String filePath){
+
+
+        driver.waitUntil(d->{
+            String msisdn = driver.element().getText(firstMSISDNLocator);
+            jsonObject.put("msisdn",msisdn);
+            try {
+                writer = new FileWriter(filePath, false);
+                writer.write(jsonObject.toJSONString());
+                writer.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            driver.element().scrollToElement(firstMSISDNLocator).click(firstMSISDNLocator);
+            return true;
+        });
     }
 
     public void enterCustomerID(String ID){
