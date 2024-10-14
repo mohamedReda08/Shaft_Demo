@@ -31,7 +31,7 @@ public class TestSIMActivation {
     landingPage = new LandingPage(driver);
     activationType = new ActivationTypePage(driver);
     activateSIM = new ActivateSIMPage(driver);
-    landingPage.navigateToHomePage();
+//    landingPage.navigateToHomePage();
  }
 
  @AfterMethod

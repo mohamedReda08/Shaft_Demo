@@ -2,27 +2,20 @@ package salamdigital;
 
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Screenshots;
-import org.json.simple.JSONObject;
-import org.openqa.selenium.Alert;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 
-public class OnboardingPage {
+public class OnboardingPage extends Page{
     SHAFT.GUI.WebDriver driver;
-    Alert alert;
-    JSONObject jsonObject;
-    FileWriter writer;
 
     By physicalSIMLocator = By.xpath("//span[text() = 'SIM']");
     By eSIMLocator = By.xpath("//span[text() = 'eSIM']");
     By newLineLocator = By.xpath("//span[text() = 'New Line']");
     By switchToSalamLocator = By.xpath("//span[text() = 'Switch to Salam Mobile']");
     By activeStepLocator = By.xpath("//div[@class = 'style_stepCircle__3JwIW style_LTR__Hi0tQ style_active__1ovmc']");
-    By firstMSISDNLocator = By.xpath("//div[@class = 'style_numbersWrapper__3IZWv']/child::div[2]");
+    By msisdnsSectionLocator = By.xpath("//div[@class = 'style_numbersWrapper__3IZWv']");
+    By msisdnLocator = By.xpath("//div[@class = 'style_numbersWrapper__3IZWv']/child::div[10]");
     By IDLocator = By.xpath("//input[@name = 'idNumber']");
     By nationalityLocator = By.xpath("//div[@id = 'nationality']");
     By saudiArabiaLocator = By.xpath("(//div//li)[1]");
@@ -46,7 +39,9 @@ public class OnboardingPage {
     By locateMeLocator = By.xpath("//div[@id = 'MyLocationIcon']");
     By confirmButtonLocator = By.xpath("//button[text() ='Confirm']");
     By mapLocator = By.xpath("//div[@aria-label='Map']");
-    By locationContinueBtnLocator = By.xpath("//span[text() = 'Continue']");
+    By cityFieldLocator = By.xpath("//div[@id='city']");
+    By riyadhCityLocator = By.xpath("//li[@data-value='41']");
+    By locationContinueBtnLocator = By.xpath("//button");
 
 //  Payment Step Locators
     By acceptSalamTermsAndConditionsLocator = By.xpath("//span[contains(text(),'I accept Salam')]");
@@ -55,183 +50,133 @@ public class OnboardingPage {
 //  Payment pop-up cards Locators
     By creditCardLocator = By.xpath("(//span[text() = 'Credit Card'])[1]");
 
-//  Credit Card inputs Locators
-    By cardNumIFrame = By.xpath("//iframe[@title = 'Card Number']");
-    By cardCVVIFrame = By.xpath("//iframe[@name='card.cvv']");
-
-    By creditCardNumberLocator = By.xpath("//input[@name = 'card.number']");
-    By cardExpiryLocator = By.xpath("//input[@data-action = 'blur-card-expiry']");
-    By cardHolderLocator = By.xpath("//input[@name = 'card.holder']");
-    By cvvLocator = By.xpath("//input[@name = 'card.cvv']");
-    By payNowBtnLocator = By.xpath("//button[text() = 'Pay now']");
-
-    By submitIFrameLocator = By.xpath("//iframe[@class ='wpwl-target']");
-    By paymentSubmitLocator = By.xpath("//input[@name='commit']");
-
-    By paymentConfirmedLocator = By.xpath("//div[contains(@class,'paymentConfirmedTitle')]");
 
     public OnboardingPage(SHAFT.GUI.WebDriver driver){
+        super(driver);
         this.driver = driver;
     }
 
-    public void choosePSIM(){
+@Step("Select Physical SIM")
+    public OnboardingPage choosePSIM(){
         driver.element().click(physicalSIMLocator);
+        return new OnboardingPage(driver);
     }
-
-    public void chooseESIM(){
+@Step("Select E-SIM")
+    public OnboardingPage chooseESIM(){
         driver.element().click(eSIMLocator);
+        return new OnboardingPage(driver);
     }
 
-    public void chooseNewLine(){
+@Step("Choose new Line")
+    public OnboardingPage chooseNewLine(){
         driver.element().click(newLineLocator);
+        return this;
     }
-
+@Step("Select Port-In to Salam")
     public void choosePortIn(){
         driver.element().click(switchToSalamLocator);
     }
 
-
-    public void chooseMSISDN(String filePath){
-
-
+@Step("Select MSISDN")
+    public OnboardingPage chooseMSISDN(){
         driver.waitUntil(d->{
-            String msisdn = driver.element().getText(firstMSISDNLocator);
-            jsonObject.put("msisdn",msisdn);
-            try {
-                writer = new FileWriter(filePath, false);
-                writer.write(jsonObject.toJSONString());
-                writer.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            driver.element().scrollToElement(firstMSISDNLocator).click(firstMSISDNLocator);
+            driver.element().scrollToElement(msisdnsSectionLocator);
+            driver.element().scrollToElement(msisdnLocator).click(msisdnLocator);
             return true;
         });
+        return this;
     }
-
-    public void enterCustomerID(String ID){
+@Step("Enter customer ID ")
+    public OnboardingPage enterCustomerID(String ID){
         driver.element().typeSecure(IDLocator, ID);
-
+    return new OnboardingPage(driver);
     }
-    public void selectCustomerNationality(){
+@Step("Select Customer Nationality")
+    public OnboardingPage selectCustomerNationality(){
         driver.element().click(nationalityLocator).
         and().scrollToElement(saudiArabiaLocator).click(saudiArabiaLocator);
+        return new OnboardingPage(driver);
     }
 
-    public void acceptTerms(){
-         driver.element().click(acceptTermsLocator);
-    }
-
-    public void clickOnContinue(){
+@Step("Accept Salam Terms and Conditions")
+    public OnboardingPage acceptTerms(){
+        driver.element().click(acceptTermsLocator);
         driver.element().click(continueButtonLocator);
+        return new OnboardingPage(driver);
     }
-
-    public void enterCustomerName(String customerName){
+@Step("Enter Customer Details")
+    public OnboardingPage enterCustomerDetails(String customerName, String contactNumber,String email){
         driver.element().typeSecure(customerNameLocator,customerName);
-    }
-
-    public void enterContactNumber(String contactNumber){
         driver.element().typeSecure(contactMobileLocator, contactNumber);
-    }
-
-    public void enterCustomerEmail(String email){
         driver.element().typeSecure(emailLocator,email);
+        driver.element().click(continueButtonLocator);
+            return this;
     }
 
-    public void clickOnSubmit(){
-        driver.element().click(submitLocator);
-    }
 
-    public void enterOTP(String otp1, String otp2, String otp3, String otp4){
+@Step("Enter OTP")
+    public OnboardingPage enterOTP(String otp1, String otp2, String otp3, String otp4){
         driver.element().typeSecure(otpFirstDigit,otp1);
         driver.element().typeSecure(otpSecondDigit, otp2);
         driver.element().typeSecure(otpThirdDigit, otp3);
         driver.element().typeSecure(otpFourthDigit, otp4);
-    }
-
-    public void clickOnOtpSubmit(){
         driver.element().click(otpSubmitLocator);
         driver.browser().captureScreenshot(Screenshots.FULL);
+        return this;
     }
-    public void enterPasswordAndConfirm(String password){
+
+    @Step("Enter Password")
+    public OnboardingPage enterPasswordAndConfirm(String password){
         driver.element().type(passwordLocator,password);
         driver.element().type(repeatPasswordLocator,password);
+        driver.element().click(continueButtonLocator);
         driver.browser().captureScreenshot(Screenshots.FULL);
+        return this;
     }
-    public void clickOnMapIcon(){
+    @Step("Open Map Pop-up")
+    public OnboardingPage clickOnMapIcon(){
         driver.element().click(mapPinLocator);
+        return this;
     }
 
-    public void allowLocationAlert(){
-       driver.waitUntil(ExpectedConditions.alertIsPresent());
-       alert.getText();
-       alert.accept();
+    public OnboardingPage allowLocationAlert(){
+        if(driver.alert().isAlertPresent()){
+            driver.alert().acceptAlert();
+        }
+       return this;
     }
 
-    public void getMyLocation(){
-        driver.waitUntil(driver ->{
-            driver.findElement(mapLocator);
+    @Step("Set Delivery Location")
+    public OnboardingPage getMyLocation(){
+        driver.waitUntil(d ->{
+            driver.element().isElementClickable(mapLocator);
+            driver.element().click(locateMeLocator);
+            driver.element().click(confirmButtonLocator);
+            driver.browser().captureScreenshot(Screenshots.FULL);
+            driver.element().click(cityFieldLocator);
+            driver.element().scrollToElement(riyadhCityLocator).click(riyadhCityLocator);
+            driver.element().click(locationContinueBtnLocator);
             return true;
         });
-        driver.element().click(locateMeLocator);
-        driver.element().click(confirmButtonLocator);
-        driver.browser().captureScreenshot(Screenshots.FULL);
-        driver.element().click(locationContinueBtnLocator);
+        return this;
     }
-
-    public void acceptPayment(){
+@Step("Accept Payment Amount")
+    public OnboardingPage acceptPayment(){
         driver.element().scrollToElement(acceptSalamTermsAndConditionsLocator);
         driver.element().click(acceptSalamTermsAndConditionsLocator);
         driver.element().click(checkoutBtnLocator);
         driver.browser().captureScreenshot(Screenshots.FULL);
+        return this;
     }
-
-    public void selectPaymentCard(){
+    @Step("Select Credit Card as payment method")
+    public HyperPayPage selectPaymentCard(){
         driver.waitUntil(d->{
             driver.element().isElementDisplayed(creditCardLocator);
             driver.element().click(creditCardLocator);
             return true;
         });
+        return new HyperPayPage(driver);
     }
 
 
-    public void completePayment(String cardNumber, String expiry, String cardHolder, String ccv){
-
-       driver.waitUntil(d->{
-           driver.element().isElementDisplayed(cardExpiryLocator);
-           driver.element().type(cardExpiryLocator,"1227");
-
-           driver.element().isElementDisplayed(cardHolderLocator);
-           driver.element().type(cardHolderLocator,"Test");
-
-           driver.element().switchToIframe(cardCVVIFrame);
-           driver.element().isElementDisplayed(cvvLocator);
-           driver.element().type(cvvLocator,"123");
-           driver.element().switchToDefaultContent();
-
-           driver.element().switchToIframe(cardNumIFrame);
-           driver.element().type(creditCardNumberLocator,cardNumber);
-           driver.element().switchToDefaultContent();
-
-           driver.element().click(payNowBtnLocator);
-           driver.browser().captureScreenshot(Screenshots.FULL);
-           return true;
-       });
-    }
-
-    public void submitPayment(){
-        driver.element().switchToIframe(submitIFrameLocator);
-        driver.element().click(paymentSubmitLocator);
-        driver.browser().captureScreenshot(Screenshots.FULL);
-        driver.element().switchToDefaultContent();
-    }
-
-    //Assertion Methods
-    public String activeStep(){
-        return driver.element().getText(activeStepLocator);
-    }
-    public String paymentConfirmed(){
-        driver.browser().captureScreenshot(Screenshots.FULL);
-        return driver.element().getText(paymentConfirmedLocator);
-    }
 }

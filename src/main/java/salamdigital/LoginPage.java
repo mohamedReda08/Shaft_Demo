@@ -1,6 +1,7 @@
 package salamdigital;
 
 import com.shaft.driver.SHAFT;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class LoginPage {
@@ -22,11 +23,13 @@ public class LoginPage {
     By passwordStepLocator = By.xpath("//div[text() = 'Enter password to Login.']");
 
 
+    @Step("Perform Quick Login")
     public void quickLogin(String msisdn) {
         driver.element().type(mobileNumberLocator, msisdn);
         driver.element().click(continueBtnLocator);
         enterOTP();
     }
+    @Step("Login with a registered user")
     public void registeredUserLogin(String msisdn){
 
         driver.waitUntil(

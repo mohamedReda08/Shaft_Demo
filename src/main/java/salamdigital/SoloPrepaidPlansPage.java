@@ -2,6 +2,7 @@ package salamdigital;
 
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Screenshots;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class SoloPrepaidPlansPage {
@@ -17,28 +18,36 @@ public class SoloPrepaidPlansPage {
         this.driver = driver;
     }
 
-    //TODO to be refactor
+    @Step("Select Solo 149 Prepaid Plan")
     public void selectSolo149Plan(){
         driver.element().click(solo149Locator);
     }
 
-    public void selectSolo199Plan(){
+    @Step("Select Solo 199 Prepaid Plan")
+    public SoloPrepaidPlansPage selectSolo199Plan(){
         driver.element().click(solo199Locator);
+        detailsCardIsDisplayed();
+        priceOfThePlan();
+        return this;
     }
 
 
-    public boolean detailsCardIsDisplayed(){
-        return driver.element().isElementDisplayed(detailsCard);
-    }
-
-    public String priceOfThePlan(){
-       driver.browser().captureScreenshot(Screenshots.ELEMENT);
-        return driver.element().getText(priceLocator);
-
-    }
-    public void subscribeToSelectedPlan(){
+    @Step("Subscribe to Selected Plan")
+    public OnboardingPage subscribeToSelectedPlan(){
         driver.element().click(subscribeLocator);
+        return new OnboardingPage(driver);
     }
+
+    private void detailsCardIsDisplayed(){
+         driver.element().isElementDisplayed(detailsCard);
+    }
+
+    private void priceOfThePlan(){
+       driver.browser().captureScreenshot(Screenshots.ELEMENT);
+       driver.element().getText(priceLocator);
+
+    }
+
 
     //TODO to be refactor with selectSoloPlan method
     private By locatePlan(String xpath){

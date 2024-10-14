@@ -23,8 +23,9 @@ public class AllPrepaidPlansPage {
         return driver.browser().getCurrentURL();
 
     }
-    public void clickOnPrepaidSoloPlansCard(){
+    public SoloPrepaidPlansPage clickOnPrepaidSoloPlansCard(){
         driver.element().click(soloPlansCardLocator);
+        return new SoloPrepaidPlansPage(driver);
     }
     public void clickOnFlexPlans(){
         driver.element().click(flexPlansCardLocator);

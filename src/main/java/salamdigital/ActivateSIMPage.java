@@ -2,13 +2,13 @@ package salamdigital;
 
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Screenshots;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
 
-public class ActivateSIMPage {
-//    Driver declaration;
-    SHAFT.GUI.WebDriver driver;
+public class ActivateSIMPage extends Page{
+
 
 
 //    Locators
@@ -43,17 +43,18 @@ public class ActivateSIMPage {
 
 //    Constructor Implementation
     public ActivateSIMPage(SHAFT.GUI.WebDriver driver){
+        super(driver);
         this.driver = driver;
     }
 //Public Methods
-
+@Step("Enter Order Details")
     public void enterOrderDetails(String id, String mobile, String email){
         driver.element().type(idNumberLocator, id);
         driver.element().type(mobileNumberLocator, mobile);
         driver.element().type(emailLocator,email);
         driver.element().click(continueBtnLocator);
     }
-
+@Step("Select Order")
     public void selectFirstOrder(){
         driver.element().click(firstOrderLocator);
 
