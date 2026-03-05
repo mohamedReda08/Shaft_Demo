@@ -14,41 +14,41 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
-          distribution: temuin
+          distribution: temurin
           cache: maven
 
       - name: Run Unit Test
-        run: mvn-test
+        run: mvn test
  
-analyze:
-  name: analyze
-  runs-on: ubunto-latest
-  permissions: 
-    actions: read
-    contents: read
-    security-events: write
-
-  strategy: 
-    fail-fast: false
-    matrix:
-      language: ["javascript", "java"]
-
-  steps:
-    - name: Checkout Repository
-      uses: checkout/actions@v3
-
-    - name: Initialize CodeQL
-      uses: github/codeql-actions/init@v2
-      with:
-        languages: ${{matrix.language}}
-    
-    - name: Autobuild
-      uses: github/codeql-actions/autobuild@v2
-
-    - name: Perform CodeQL analysis
-      uses: github/codeql-actions/analyze@v2
-      with:
-        category: "/language: ${{matrix.language}}"
+  analyze:
+    name: analyze
+    runs-on: ubuntu-latest
+    permissions: 
+      actions: read
+      contents: read
+      security-events: write
+  
+    strategy: 
+      fail-fast: false
+      matrix:
+        language: ["javascript", "java"]
+  
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+  
+      - name: Initialize CodeQL
+        uses: github/codeql-actions/init@v2
+        with:
+          languages: ${{matrix.language}}
       
-    
-    
+      - name: Autobuild
+        uses: github/codeql-actions/autobuild@v2
+  
+      - name: Perform CodeQL analysis
+        uses: github/codeql-actions/analyze@v2
+        with:
+          category: "/language: ${{matrix.language}}"
+        
+      
+      
